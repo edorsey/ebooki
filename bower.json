@@ -1,0 +1,25 @@
+{
+  "name": "wooki",
+  "version": "0.6.1",
+  "homepage": "https://github.com/edorsey/wooki",
+  "authors": [
+    "Eric Dorsey <eric@ericdorsey.com>"
+  ],
+  "description": "A book writing and reading app, using a git based wiki system (jingo).",
+  "main": "app.js",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "backbone": "~1.1.2",
+    "jquery": "~2.1.1",
+    "moment": "~2.7.0",
+    "bootstrap": "~3.2.0"
+  }
+}
