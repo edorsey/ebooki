@@ -23,7 +23,11 @@ var express        = require('express')
   , GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
   , LocalStrategy  = require('passport-local').Strategy
   , Flash          = require('connect-flash')
-  , program        = require('commander');
+  , program        = require('commander')
+  , authentication = require('./utilities/authentication')
+  , requireAuthentication = require('./utilities/requireAuthentication')
+  , error404 = require('./utilities/error404');
+
 
 program.version('0.6.1')
        .option('-c, --config <path>', 'Specify the config file')
@@ -99,24 +103,8 @@ app.locals.coalesce = function(value, def) {
 }
 app.locals.pretty = true; // Pretty HTML output from Jade
 
-var auth = app.locals.authentication = Config.get("authentication", { google: { enabled: true }, alone: { enabled: false } });
-
-auth.google = auth.google || {enabled: false};
-auth.alone  = auth.alone  || {enabled: false};
-
-if ( !auth.google.enabled && !auth.alone.enabled ) {
-  console.log("Error: no authentication method provided. Cannot continue.");
-  process.exit(-1);
-}
-
-if (auth.google.enabled && (!auth.google.clientId || !auth.google.clientSecret)) {
-  console.log("Error: invalid or missing authentication credentials for Google (clientId and/or clientSecret).");
-  process.exit(-1);
-}
 
 Components.init(Git);
-
-var routes = require("./routes");
 
 app.configure(function() {
   app.use(express.errorHandler());
@@ -136,6 +124,8 @@ app.configure(function() {
   app.use(passport.initialize());
   app.use(passport.session());
   app.use(Flash());
+  console.log("COMPONENTS");
+  console.log(Components);
   app.use(function (req, res, next) {
     res.locals({
       get user() {
@@ -181,75 +171,10 @@ app.configure(function() {
   app.use(app.router);
 });
 
-function requireAuthentication(req, res, next) {
-  if (!res.locals.user) {
-    res.redirect("/login");
-  } else {
-    next();
-  }
-}
+authentication(app);
 
-/*
- * Passport configuration
- */
-
-if (auth.google.enabled) {
-
-  passport.use(new GoogleStrategy({
-      clientID: auth.google.clientId,
-      clientSecret: auth.google.clientSecret,
-      // I will leave the horrible name as the default to make the painful creation
-      // of the client id/secret simpler
-      callbackURL: app.locals.baseUrl + '/oauth2callback'
-    },
-
-    function(accessToken, refreshToken, profile, done) {
-      usedAuthentication("google");
-      done(null, profile);
-    }
-  ));
-}
-
-if (auth.alone.enabled) {
-
-  passport.use(new LocalStrategy(
-
-    function(username, password, done) {
-
-      var user = {
-        displayName: auth.alone.username,
-        email: auth.alone.email || ""
-      };
-
-      if (username.toLowerCase() != auth.alone.username.toLowerCase() || Tools.hashify(password) != auth.alone.passwordHash) {
-        return done(null, false, { message: 'Incorrect username or password' });
-      }
-
-      usedAuthentication("alone");
-
-      return done(null, user);
-    }
-  ));
-}
-
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(function(user, done) {
-  if (user.emails && user.emails.length > 0) { // Google
-    user.email = user.emails[0].value;
-    delete user.emails;
-  }
-  user.asGitAuthor = user.displayName + " <" + user.email + ">";
-  done(undefined, user);
-});
-
-function usedAuthentication(name) {
-  for (var a in app.locals.authentication) {
-    app.locals.authentication[a].used = (a == name);
-  }
-}
+var routes = require("./routes");
+var things = require("./things");
 
 app.all("/pages/*", requireAuthentication);
 
@@ -258,40 +183,7 @@ if (!app.locals.authorization.anonRead) {
   app.all("/search", requireAuthentication);
 }
 
-app.get    ("/",                      routes.index);
-app.get    ("/wiki",                  routes.pageList);
-app.get    ("/wiki/:page",            routes.pageShow);
-app.get    ("/wiki/:page/history",    routes.pageHistory);
-app.get    ("/wiki/:page/:version",   routes.pageShow);
-app.get    ("/wiki/:page/compare/:revisions", routes.pageCompare);
-
-app.get    ("/search",                routes.search);
-
-app.get    ("/pages/new",             routes.pageNew);
-app.get    ("/pages/new/:page",       routes.pageNew);
-app.post   ("/pages",                 routes.pageCreate);
-
-app.get    ("/pages/:page/edit",      routes.pageEdit);
-app.put    ("/pages/:page",           routes.pageUpdate);
-app.delete ("/pages/:page",           routes.pageDestroy);
-
-app.post   ("/misc/preview",          routes.miscPreview);
-app.get    ("/misc/syntax-reference", routes.miscSyntaxReference);
-app.get    ("/misc/existence",        routes.miscExistence);
-
-app.post   ("/login",                 passport.authenticate('local', { successRedirect: '/auth/done', failureRedirect: '/login', failureFlash: true }));
-app.get    ("/login",                 routes.login);
-app.get    ("/logout",                routes.logout);
-
-app.get    ("/auth/google",    passport.authenticate('google', {
-  scope: ['https://www.googleapis.com/auth/userinfo.email'] }
-));
-
-app.get    ("/oauth2callback",    passport.authenticate('google', { successRedirect: '/auth/done', failureRedirect: '/login' }));
-
-app.get    ("/auth/done",             routes.authDone);
-
-app.all('*', routes.error404);
+app.all('*', error404);
 
 var listenAddr = process.env.NW_ADDR || "";
 if (Config.get("server.localOnly")) {

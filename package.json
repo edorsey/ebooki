@@ -2,7 +2,7 @@
   "name": "wooki",
   "version": "0.6.1",
   "description": "A better way to write books based on jingo",
-  "author" : "Eric Dorsey (eric@ericdorsey.com)",
+  "author": "Eric Dorsey (eric@ericdorsey.com)",
   "keywords": [
     "wiki",
     "git",
@@ -27,6 +27,7 @@
     "gravatar": ">= 1.0.6",
     "iconv": "*",
     "jade": "*",
+    "lodash": "^2.4.1",
     "marked": ">= 0.2.x",
     "node-syntaxhighlighter": "*",
     "passport": "0.1.x",
