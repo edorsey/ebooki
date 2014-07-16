@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
 /*
- * Jingo, wiki engine
- * http://github.com/claudioc/jingo
+ * Wooki, book wiki engine built on Jingo
+ * http://github.com/edorsey/wooki
  *
- * Copyright 2013 Claudio Cicali <claudio.cicali@gmail.com>
+ * Copyright 2014 Eric Dorsey <eric@ericdorsey.com>
  * Released under the MIT license
  */
 
@@ -61,7 +61,7 @@ try {
 global.app = express();
 app.locals.Git = Git;
 app.locals.Components = Components;
-app.locals.appTitle = Config.get("application.title", "Jingo");
+app.locals.appTitle = Config.get("application.title", "Wooki");
 app.locals.port = Config.get("server.port", process.env.PORT || 6067);
 app.locals.hostname = Config.get("server.hostname", "localhost");
 app.locals.features = Config.get("features", {});
@@ -82,7 +82,7 @@ if (app.locals.features.markitup &&
 // baseUrl is used as the public url
 app.locals.baseUrl = Config.get("server.baseUrl", ("http://" + app.locals.hostname + ":" + app.locals.port));
 app.locals.authorization = Config.get("authorization", { anonRead: false, validMatches: ".+" });
-app.locals.secret = Config.get("application.secret", "jingo-secret-67");
+app.locals.secret = Config.get("application.secret", "wooki-secret-67");
 
 var refspec = Config.get("application.remote") ? Config.get("application.remote").split(/\s+/) : "";
 if (!refspec) {
@@ -125,9 +125,10 @@ app.configure(function() {
   app.set('view engine', 'jade');
   app.use(express.favicon());
   app.use(express.static(path.join(__dirname, 'public')));
+  app.use('/bower_components', express.static(__dirname + '/bower_components'));
   app.use(express.logger('default'));
   app.use(express.cookieParser(app.locals.secret));
-  app.use(express.cookieSession({ secret: "jingo-" + app.locals.secret, cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 }})); // a Month
+  app.use(express.cookieSession({ secret: "wooki-" + app.locals.secret, cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 }})); // a Month
   app.use(express.json());
   app.use(express.urlencoded());
   app.use(expValidator());
@@ -298,7 +299,7 @@ if (Config.get("server.localOnly")) {
 }
 
 http.createServer(app).listen(app.get('port'), listenAddr, function(){
-  console.log((new Date()) + " - Jingo%sserver v%s listening on port %s", Config.get("server.localOnly") ? " (local) " : " ", program.version(), app.get('port'));
+  console.log((new Date()) + " - Wooki%sserver v%s listening on port %s", Config.get("server.localOnly") ? " (local) " : " ", program.version(), app.get('port'));
 });
 
 if (app.locals.remote != "") {

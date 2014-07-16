@@ -18,7 +18,7 @@ describe ("Config", function() {
 
     expect(Object.keys(def).join('')).to.equal(configKeys.join(''));
 
-    expect(def.application.title).to.equal('Jingo');
+    expect(def.application.title).to.equal('Wooki');
     expect(def.application.repository).to.equal('/absolute/path/to/your/repo');
     expect(def.application.docSubdir).to.equal('');
     expect(def.application.remote).to.equal('');

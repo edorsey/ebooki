@@ -5,7 +5,7 @@
 
   var $toolbar;
 
-  var Jingo = {
+  var Wooki = {
 
     init: function() {
       var navh = $(".navbar").height(),
@@ -146,10 +146,10 @@
 
     toggleFullscreen: function() {
       
-      var isFullscreen = Jingo.cmInstance.getOption("fullScreen");
+      var isFullscreen = Wooki.cmInstance.getOption("fullScreen");
 
-      Jingo.cmInstance.setOption("fullScreen", !Jingo.cmInstance.getOption("fullScreen"));
-      Jingo.cmInstance.focus();
+      Wooki.cmInstance.setOption("fullScreen", !Wooki.cmInstance.getOption("fullScreen"));
+      Wooki.cmInstance.focus();
 
       $toolbar.toggleClass("fullscreen", !isFullscreen);
     },
@@ -163,14 +163,14 @@
 
       $("ul.toolbar").on("click", "span", function() {
         if (this.parentNode.className == "info") {
-          Jingo.markdownSyntax();
+          Wooki.markdownSyntax();
         }
         if (this.parentNode.className == "preview") {
-          Jingo.cmInstance.save();
-          Jingo.preview();
+          Wooki.cmInstance.save();
+          Wooki.preview();
         }
         if (this.parentNode.className == "fullscreen") {
-          Jingo.toggleFullscreen();
+          Wooki.toggleFullscreen();
         }
       });
     },
@@ -184,6 +184,6 @@
     }
   }
 
-  window.Jingo = Jingo;
+  window.Wooki = Wooki;
 
 })(this, jQuery);

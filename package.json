@@ -1,20 +1,20 @@
 {
-  "name": "jingo",
+  "name": "wooki",
   "version": "0.6.1",
-  "description": "A nodejs based wiki engine (sort of Gollum port)",
-  "author": "Claudio Cicali <claudio.cicali@gmail.com>",
+  "description": "A better way to write books based on jingo",
+  "author" : "Eric Dorsey (eric@ericdorsey.com)",
   "keywords": [
     "wiki",
     "git",
     "markdown"
   ],
-  "main": "jingo",
+  "main": "wooki",
   "bin": {
-    "jingo": "./jingo"
+    "wooki": "./app.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/claudioc/jingo"
+    "url": "https://github.com/edorsey/wooki"
   },
   "directories": {
     "lib": "./lib/"
@@ -48,8 +48,7 @@
   },
   "licenses": [
     {
-      "type": "MIT",
-      "url": "http://github.com/claudioc/jingo/raw/master/LICENSE"
+      "type": "MIT"
     }
   ]
 }
