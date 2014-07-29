@@ -26,36 +26,9 @@ var express        = require('express')
   , program        = require('commander')
   , authentication = require('./utilities/authentication')
   , requireAuthentication = require('./utilities/requireAuthentication')
-  , error404 = require('./utilities/error404');
+  , error404 = require('./utilities/error404')
+  , wookiWorker = require('./worker/wooki.js');
 
-
-program.version('0.6.1')
-       .option('-c, --config <path>', 'Specify the config file')
-       .option('-#, --hash-string <string>', 'Create an hash for a string')
-       .option('-l, --local', 'Listen on localhost only')
-       .option('-s, --sample-config', 'Dumps a config file template and exits')
-       .parse(process.argv);
-
-if (program.sampleConfig) {
-  console.log(Config.sample());
-  process.exit(0);
-}
-
-if (program.hashString) {
-  console.log(Tools.hashify(program.hashString));
-  process.exit(0);
-}
-
-if (!program.config) {
-  program.config = "config.yaml";
-}
-
-if (!program.config || !Fs.existsSync(program.config)) {
-  program.help();
-  process.exit(-1);
-}
-
-Config.load(program.config);
 
 try {
   Git.setup(Config.get("application.repository"), Config.get("application.docSubdir", ""));
