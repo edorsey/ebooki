@@ -41,7 +41,7 @@ WookiWorker.prototype.optionFns = {
 		}
 	},
 	'package-version' : function() {
-		if (program.packageVersion ) {
+		if (program.packageVersion && program.packageVersion !== true) {
 			packageJSON['version'] = program.packageVersion;
 			fs.writeFile('package.json', JSON.stringify(packageJSON, null, " "), function (err) {
 			  if (err) throw err;
