@@ -8,21 +8,21 @@
  * Released under the MIT license
  */
 
-var express        = require('express')
-  , http           = require('http')
-  , path           = require('path')
-  , passport       = require('passport')
-  , Git            = require('./lib/gitmech')
-  , Tools          = require('./lib/tools')
-  , Config         = require('./lib/config')
-  , Components     = require('./lib/components')
-  , expValidator   = require('express-validator')
-  , gravatar       = require('gravatar')
-  , Flash          = require('connect-flash')
-  , authentication = require('./utilities/authentication')
-  , requireAuthentication = require('./utilities/requireAuthentication')
-  , error404 = require('./utilities/error404')
-  , wookiWorker = require('./worker/wooki.js');
+var express = require('express'),
+    http = require('http'),
+    path = require('path'),
+    passport = require('passport'),
+    Git = require('./lib/gitmech'),
+    Tools = require('./lib/tools'),
+    Config = require('./lib/config'),
+    Components = require('./lib/components'),
+    expValidator = require('express-validator'),
+    gravatar = require('gravatar'),
+    Flash = require('connect-flash'),
+    authentication = require('./utilities/authentication'),
+    requireAuthentication = require('./utilities/requireAuthentication'),
+    error404 = require('./utilities/error404'),
+    wookiWorker = require('./worker/wooki.js');
 
 
 try {
