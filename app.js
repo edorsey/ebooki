@@ -12,18 +12,13 @@ var express        = require('express')
   , http           = require('http')
   , path           = require('path')
   , passport       = require('passport')
-  , Fs             = require('fs')
   , Git            = require('./lib/gitmech')
   , Tools          = require('./lib/tools')
   , Config         = require('./lib/config')
   , Components     = require('./lib/components')
   , expValidator   = require('express-validator')
   , gravatar       = require('gravatar')
-  , Url            = require('url')
-  , GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
-  , LocalStrategy  = require('passport-local').Strategy
   , Flash          = require('connect-flash')
-  , program        = require('commander')
   , authentication = require('./utilities/authentication')
   , requireAuthentication = require('./utilities/requireAuthentication')
   , error404 = require('./utilities/error404')
@@ -34,7 +29,6 @@ try {
   Git.setup(Config.get("application.repository"), Config.get("application.docSubdir", ""));
 } catch(e) {
   console.log(e.message)
-  program.help()
   process.exit(-1);
 }
 
@@ -160,13 +154,8 @@ if (!app.locals.authorization.anonRead) {
 
 app.all('*', error404);
 
-var listenAddr = process.env.NW_ADDR || "";
-if (Config.get("server.localOnly")) {
-  listenAddr = "localhost";
-}
-
-http.createServer(app).listen(app.get('port'), listenAddr, function(){
-  console.log((new Date()) + " - Wooki%sserver v%s listening on port %s", Config.get("server.localOnly") ? " (local) " : " ", program.version(), app.get('port'));
+http.createServer(app).listen(app.get('port'), function(){
+  console.log(("Wooki server listening on port " + app.get('port')));
 });
 
 if (app.locals.remote != "") {
