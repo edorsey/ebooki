@@ -1,55 +1,56 @@
 {
-  "name": "wooki",
-  "version": "0.6.1",
-  "description": "A better way to write books based on jingo",
-  "author": "Eric Dorsey (eric@ericdorsey.com)",
-  "keywords": [
-    "wiki",
-    "git",
-    "markdown"
-  ],
-  "main": "wooki",
-  "bin": {
-    "wooki": "./app.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/edorsey/wooki"
-  },
-  "directories": {
-    "lib": "./lib/"
-  },
-  "dependencies": {
-    "commander": "*",
-    "connect-flash": "*",
-    "express": "3.5.3",
-    "express-validator": ">= 0.3.0",
-    "gravatar": ">= 1.0.6",
-    "iconv": "*",
-    "jade": "*",
-    "lodash": "^2.4.1",
-    "marked": ">= 0.2.x",
-    "node-syntaxhighlighter": "*",
-    "passport": "0.1.x",
-    "passport-google": "*",
-    "passport-google-oauth": ">= 0.1.5",
-    "passport-local": "0.1.x",
-    "yaml-js": "*"
-  },
-  "devDependencies": {
-    "chai": "*",
-    "mocha": "*"
-  },
-  "scripts": {
-    "test": "mocha test/spec"
-  },
-  "engines": {
-    "node": "0.8.x",
-    "npm": "1.1.x"
-  },
-  "licenses": [
-    {
-      "type": "MIT"
-    }
-  ]
+ "name": "wooki",
+ "version": "0.6.2",
+ "description": "A better way to write books based on jingo",
+ "author": "Eric Dorsey (eric@ericdorsey.com)",
+ "keywords": [
+  "wiki",
+  "git",
+  "markdown"
+ ],
+ "main": "wooki",
+ "bin": {
+  "wooki": "./app.js"
+ },
+ "repository": {
+  "type": "git",
+  "url": "https://github.com/edorsey/wooki"
+ },
+ "directories": {
+  "lib": "./lib/"
+ },
+ "dependencies": {
+  "commander": "*",
+  "connect-flash": "*",
+  "express": "3.5.3",
+  "express-validator": ">= 0.3.0",
+  "gravatar": ">= 1.0.6",
+  "iconv": "*",
+  "jade": "*",
+  "lodash": "^2.4.1",
+  "marked": ">= 0.2.x",
+  "node-syntaxhighlighter": "*",
+  "passport": "0.1.x",
+  "passport-google": "*",
+  "passport-google-oauth": ">= 0.1.5",
+  "passport-local": "0.1.x",
+  "underscore": "^1.6.0",
+  "yaml-js": "*"
+ },
+ "devDependencies": {
+  "chai": "*",
+  "mocha": "*"
+ },
+ "scripts": {
+  "test": "mocha test/spec"
+ },
+ "engines": {
+  "node": "0.8.x",
+  "npm": "1.1.x"
+ },
+ "licenses": [
+  {
+   "type": "MIT"
+  }
+ ]
 }
