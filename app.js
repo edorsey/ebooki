@@ -46,6 +46,10 @@ if (program.hashString) {
   process.exit(0);
 }
 
+if (!program.config) {
+  program.config = "config.yaml";
+}
+
 if (!program.config || !Fs.existsSync(program.config)) {
   program.help();
   process.exit(-1);
@@ -124,8 +128,6 @@ app.configure(function() {
   app.use(passport.initialize());
   app.use(passport.session());
   app.use(Flash());
-  console.log("COMPONENTS");
-  console.log(Components);
   app.use(function (req, res, next) {
     res.locals({
       get user() {
